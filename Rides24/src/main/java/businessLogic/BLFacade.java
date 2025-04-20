@@ -100,4 +100,6 @@ public interface BLFacade  {
 	 public List<Ride> rejectedReservation(String email);
 	 public boolean eraseReservation(String email, Ride ride);
 	 public boolean addRating(Rating rating);
+	 public Ride findRide(int numero);
+	 public boolean existsReservation(Reservation res);
 }

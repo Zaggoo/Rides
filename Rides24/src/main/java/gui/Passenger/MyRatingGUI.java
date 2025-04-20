@@ -123,7 +123,7 @@ public class MyRatingGUI extends JFrame {
 						System.out.println("Con Texto JOOOOOO");
 					}
 				}else {
-					JOptionPane.showMessageDialog(null, "Por favor, selecciona un viaje");
+					JOptionPane.showMessageDialog(null, ResourceBundle.getBundle("Etiquetas").getString("MyRatingGUI.Select"));
 				}
 			}
 		});

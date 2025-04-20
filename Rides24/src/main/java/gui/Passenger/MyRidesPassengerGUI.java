@@ -12,6 +12,7 @@ import javax.swing.DefaultListModel;
 import javax.swing.JFrame;
 import javax.swing.JPanel;
 import javax.swing.border.EmptyBorder;
+import javax.swing.table.DefaultTableModel;
 
 import businessLogic.BLFacade;
 import domain.Driver;
@@ -23,12 +24,14 @@ import gui.MainGUI;
 import javax.swing.JList;
 import javax.swing.JOptionPane;
 import javax.swing.JButton;
+import javax.swing.JScrollPane;
+import javax.swing.JTable;
 
 public class MyRidesPassengerGUI extends JFrame {
 
 	private static final long serialVersionUID = 1L;
 	private JPanel contentPane;
-
+	private JTable tabla;
 
 
 	/**
@@ -43,12 +46,7 @@ public class MyRidesPassengerGUI extends JFrame {
 
 		setContentPane(contentPane);
 		contentPane.setLayout(null);
-		
-		JList list = new JList();
-		list.setBounds(34, 43, 376, 151);
-		contentPane.add(list);
 		DefaultListModel rides = new DefaultListModel();
-		list.setModel(rides);
 		
 		JButton btnClose = new JButton(ResourceBundle.getBundle("Etiquetas").getString("Close"));
 		
@@ -59,9 +57,7 @@ public class MyRidesPassengerGUI extends JFrame {
 		
 		List<Ride> viajes = facade.acceptedReservation(pasajero.getEmail());
 		
-		for (Ride aux : viajes) {
-			rides.addElement(aux);
-		}
+		
 		
 		
 		JButton btnCancelar = new JButton(ResourceBundle.getBundle("Etiquetas").getString("MyRidesPassengerGUI.Cancelar")); //$NON-NLS-1$ //$NON-NLS-2$
@@ -71,6 +67,26 @@ public class MyRidesPassengerGUI extends JFrame {
 		});
 		btnCancelar.setBounds(85, 200, 119, 33);
 		contentPane.add(btnCancelar);
+	
+		String[] columnas = {ResourceBundle.getBundle("Etiquetas").getString("MyRidesPassengerGUI.Code"), ResourceBundle.getBundle("Etiquetas").getString("CreateRideGUI.LeavingFrom"), 
+		ResourceBundle.getBundle("Etiquetas").getString("CreateRideGUI.GoingTo"),ResourceBundle.getBundle("Etiquetas").getString("CreateRideGUI.RideDate")};
+		DefaultTableModel model = new DefaultTableModel(null, columnas);
+		tabla = new JTable(model);
+		JScrollPane scrollPane = new JScrollPane(tabla);
+		scrollPane.setBounds(40, 43, 365, 127);
+		contentPane.add(scrollPane);
+		tabla.setAutoResizeMode(JTable.AUTO_RESIZE_OFF); 
+		tabla.getColumnModel().getColumn(0).setPreferredWidth(75);  
+		tabla.getColumnModel().getColumn(1).setPreferredWidth(100); 
+		tabla.getColumnModel().getColumn(2).setPreferredWidth(100); 
+		tabla.getColumnModel().getColumn(3).setPreferredWidth(250); 
+
+
+		scrollPane.setVerticalScrollBarPolicy(JScrollPane.VERTICAL_SCROLLBAR_ALWAYS);
+		for (Ride aux : viajes) {
+			Object[] row = {aux.getRideNumber(), aux.getFrom(), aux.getTo(), aux.getDate()};
+			model.addRow(row);
+		}
 		
 		btnClose.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
@@ -80,16 +96,24 @@ public class MyRidesPassengerGUI extends JFrame {
 		
 		btnCancelar.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
-				Ride aux= (Ride) list.getSelectedValue();
-				Calendar currentCalendar = Calendar.getInstance();
-				currentCalendar.add(Calendar.DAY_OF_YEAR, 7);
-				Calendar rideDate = Calendar.getInstance();
-				rideDate.setTime(aux.getDate());
-				if(rideDate.after(currentCalendar)) {
-					facade.eraseReservation(pasajero.getEmail(),aux);
-					actualizarLista(viajes,rides,pasajero, facade);
+				int selectedRow = tabla.getSelectedRow();
+				if (selectedRow ==-1) {
+					JOptionPane.showMessageDialog(null, ResourceBundle.getBundle("Etiquetas").getString("MyRidesPassengerGUI.SelectError"));
+					return;
 				}else {
-					JOptionPane.showMessageDialog(null, "No se ha podido cancelar la reserva, viaje demasiado próximo");
+					Ride aux= (Ride) facade.findRide((int)tabla.getValueAt(selectedRow, 0));
+					Calendar currentCalendar = Calendar.getInstance();
+					currentCalendar.add(Calendar.DAY_OF_YEAR, 7);
+					Calendar rideDate = Calendar.getInstance();
+					rideDate.setTime(aux.getDate());
+					if(rideDate.after(currentCalendar)) {
+						facade.eraseReservation(pasajero.getEmail(),aux);
+						actualizarLista(viajes,rides,pasajero, facade, model);
+					}else {
+						JOptionPane.showMessageDialog(null, ResourceBundle.getBundle("Etiquetas").getString("MyRidesPassengerGUI.Near"));
+					}
+					
+				
 				}
 			}
 		});
@@ -98,12 +122,14 @@ public class MyRidesPassengerGUI extends JFrame {
 		
 		
 	}
-	private void actualizarLista(List<Ride> viajes, DefaultListModel rides, Passenger pasajero, BLFacade facade) {
+	private void actualizarLista(List<Ride> viajes, DefaultListModel rides, Passenger pasajero, BLFacade facade, DefaultTableModel model) {
 		rides.removeAllElements();
 		viajes= facade.acceptedReservation(pasajero.getEmail());
-		for(Ride aux:viajes) {
-			rides.addElement(aux);
+		for (Ride aux : viajes) {
+			Object[] row = {aux.getRideNumber(), aux.getFrom(), aux.getTo(), aux.getDate()};
+			model.addRow(row);
 		}
+		
 	}
 	private void btnClose_actionPerformed(ActionEvent e) {
 		this.setVisible(false);

@@ -77,7 +77,8 @@ public class ReservedRidesDriverGUI extends JFrame {
 					lista.remove(reserva);
 					actualizarLista(lista,rides,conductor);
 				}else {
-					JOptionPane.showMessageDialog(null, "Por favor, selecciona una reserva.");
+					JOptionPane.showMessageDialog(null, ResourceBundle.getBundle("Etiquetas").getString("ReservedRiedsDriverGUI.Reservation"));
+					//Por favor, selecciona una reserva
 				}
 			}
 			
@@ -91,7 +92,7 @@ public class ReservedRidesDriverGUI extends JFrame {
 					lista.remove(reserva);
 					actualizarLista(lista,rides,conductor);
 				}else {
-					JOptionPane.showMessageDialog(null, "Por favor, completa todos los campos.");
+					JOptionPane.showMessageDialog(null, ResourceBundle.getBundle("Etiquetas").getString("SignInGUI.NotComplete"));
 				}
 			}
 		});

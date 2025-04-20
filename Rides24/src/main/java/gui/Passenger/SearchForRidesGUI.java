@@ -245,15 +245,18 @@ public class SearchForRidesGUI extends JFrame {
 				
 				int selectedRow = tableRides.getSelectedRow();
 				if (selectedRow ==-1) {
-					JOptionPane.showMessageDialog(null, "Por favor selecciona un ride para reservar");
+					JOptionPane.showMessageDialog(null, ResourceBundle.getBundle("Etiquetas").getString("FindRidesGUI.SelectError"));
 					return;
 				}else {
 				
 					Ride selectedRide = (Ride) tableModelRides.getValueAt(selectedRow, 3);
-					int rideid =selectedRide.getRideNumber()
-;					Reservation res = new Reservation(rideid ,pasajero.getEmail());
-				
-					facade.makeReservation(res);
+					int rideid =selectedRide.getRideNumber();					
+					Reservation res = new Reservation(rideid ,pasajero.getEmail());
+					if(!facade.existsReservation(res)) {
+						facade.makeReservation(res);
+					}else {
+						JOptionPane.showMessageDialog(null,  ResourceBundle.getBundle("Etiquetas").getString("FindRidesGUI.ResYes"));
+					}
 				
 				}
 			}

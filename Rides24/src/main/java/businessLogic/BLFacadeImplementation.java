@@ -233,5 +233,18 @@ public class BLFacadeImplementation  implements BLFacade {
     	return morsilla;
     }
     
+    public Ride findRide(int numero) {
+    	dbManager.open();
+    	Ride ride = dbManager.findRide(numero);
+    	dbManager.open();
+    	return ride;
+    }
+    public boolean existsReservation(Reservation res) {
+    	dbManager.open();
+    	boolean esta = dbManager.existsReservation(res);
+    	dbManager.close();
+    	return esta;
+    }
+    
 }
 

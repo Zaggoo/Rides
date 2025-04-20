@@ -89,7 +89,7 @@ public class SignInGUI extends JFrame {
 				String contraseña = passwordField.getText().trim();
 
 				if (email.isEmpty() | contraseña.isEmpty() | (rdbtnPasajero.isSelected() && rdbtnconductor.isSelected())) {
-				    JOptionPane.showMessageDialog(null, "Por favor, completa todos los campos.");
+				    JOptionPane.showMessageDialog(null, ResourceBundle.getBundle("Etiquetas").getString("SignInGUI.NotComplete"));
 				    return;
 				}
 				btnsistema.setText(ResourceBundle.getBundle("Etiquetas").getString("SignInGUI.Login"));

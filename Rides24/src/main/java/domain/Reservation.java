@@ -49,6 +49,11 @@ public class Reservation {
 	public void setEstado(boolean estado) {
 		this.estado = estado;
 	}
+
+	public String getPasEmail() {
+		return pasEmail;
+	}
+	
 	
 
 }

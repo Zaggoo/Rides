@@ -426,7 +426,7 @@ public void open(){
 	public boolean eraseReservation(String email, Ride ride) {
 		boolean res=false;
 		db.getTransaction().begin();
-		TypedQuery<Reservation> query = db.createQuery("SELECT r FROM Reservation r WHERE r.pasEmail=?1 AND r.idRide=?2",Reservation.class);   
+		TypedQuery<Reservation> query = db.createQuery("SELECT r FROM Reservation r WHERE r.pasEmail=?1 AND r.idRide=?2 ",Reservation.class);   
 		query.setParameter(1, email);
 		query.setParameter(2, ride.getRideNumber());
 		Reservation auxiliar = query.getSingleResult();
@@ -453,6 +453,22 @@ public void open(){
 		}
 		db.getTransaction().commit();
 		return añadido;
+	}
+	public Ride findRide(int numero) {
+		return db.find(Ride.class, numero);
+		
+	}
+	
+	public boolean existsReservation(Reservation res) {
+		boolean existe = true;
+		TypedQuery<Reservation> query = db.createQuery("SELECT r FROM Reservation r WHERE r.pasEmail=?1 AND r.idRide=?2",Reservation.class);   
+		query.setParameter(1, res.getPasEmail());
+		query.setParameter(2, res.getIdRide());
+		List<Reservation> lista = query.getResultList();
+		if(lista.isEmpty()) {
+			existe = false; 
+		}
+		return existe;
 	}
 	
 }
