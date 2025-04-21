@@ -245,6 +245,16 @@ public class BLFacadeImplementation  implements BLFacade {
     	dbManager.close();
     	return esta;
     }
-    
+    public List<Rating> findRating(String email){
+    	dbManager.open();
+    	List<Rating> lista = dbManager.findRating(email);
+    	dbManager.close();
+    	return lista;
+    }
+    public void responseRating(String email, int idRide, String emailConductor, String mensaje) {
+    	dbManager.open();
+    	dbManager.responseRating(email, idRide, emailConductor, mensaje);
+    	dbManager.close();
+    }
 }
 

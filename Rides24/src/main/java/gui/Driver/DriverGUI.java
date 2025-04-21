@@ -56,6 +56,10 @@ public class DriverGUI extends JFrame {
 		JButton btnHistorial = new JButton(ResourceBundle.getBundle("Etiquetas").getString("DriverGUI.Historial")); //$NON-NLS-1$ //$NON-NLS-2$
 		btnHistorial.setBounds(23, 133, 185, 75);
 		contentPane.add(btnHistorial);
+		
+		JButton btnOpinions = new JButton(ResourceBundle.getBundle("Etiquetas").getString("DriverGUI.Opiniones")); //$NON-NLS-1$ //$NON-NLS-2$
+		btnOpinions.setBounds(141, 218, 149, 35);
+		contentPane.add(btnOpinions);
 		BLFacade facade = MainGUI.getBusinessLogic();
 		
 		btnCreatedRides.addActionListener(new ActionListener()
@@ -106,5 +110,16 @@ public class DriverGUI extends JFrame {
 			
 		});
 		
+		btnOpinions.addActionListener(new ActionListener()
+		{
+			public void actionPerformed(ActionEvent e) {
+				
+				JFrame a = new OpinionsAboutGUI(conductor);
+				a.setVisible(true);
+				
+			}
+
+			
+		});
 	}
 }

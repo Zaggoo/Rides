@@ -58,6 +58,7 @@ public class SearchForRidesGUI extends JFrame {
 			ResourceBundle.getBundle("Etiquetas").getString("FindRidesGUI.NPlaces"), 
 			ResourceBundle.getBundle("Etiquetas").getString("FindRidesGUI.Price")
 	};
+	private final JButton btnOpiniones = new JButton(ResourceBundle.getBundle("Etiquetas").getString("SearchForRidesGUI.Opiniones")); //$NON-NLS-1$ //$NON-NLS-2$
 
 
 	public SearchForRidesGUI(Passenger pasajero)
@@ -118,6 +119,8 @@ public class SearchForRidesGUI extends JFrame {
 				
 			}
 		});
+		
+		
 
 
 		jComboBoxDestination.setModel(destinationCities);
@@ -238,6 +241,25 @@ public class SearchForRidesGUI extends JFrame {
 		JButton btnReservar = new JButton(ResourceBundle.getBundle("Etiquetas").getString("FindRidesGUI.Reservation")); 
 		btnReservar.setBounds(25, 274, 109, 104);
 		getContentPane().add(btnReservar);
+		btnOpiniones.setBounds(32, 138, 191, 25);
+		
+		getContentPane().add(btnOpiniones);
+		
+		btnOpiniones.addActionListener(new ActionListener()
+		{
+			public void actionPerformed(ActionEvent e) {
+				int selectedRow = tableRides.getSelectedRow();
+				if (selectedRow ==-1) {
+					JOptionPane.showMessageDialog(null, ResourceBundle.getBundle("Etiquetas").getString("FindRidesGUI.SelectErrorDriver"));
+					return;
+				}else {
+					OpinionsDriverGUI a = new OpinionsDriverGUI(pasajero, (String) tableRides.getValueAt(selectedRow, 0));
+					a.setVisible(true);
+				
+				}
+				
+			}
+		});
 		
 		btnReservar.addActionListener(new ActionListener()
 		{

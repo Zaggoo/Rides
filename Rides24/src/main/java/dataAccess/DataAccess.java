@@ -445,8 +445,11 @@ public void open(){
 	public boolean addRating(Rating rating) {
 		db.getTransaction().begin();
 		boolean añadido = false;
-		Rating existe = db.find(Rating.class, rating.getIdRating());
-		if (existe == null) {
+		TypedQuery<Rating> query = db.createQuery("SELECT r FROM Rating r WHERE r.email=?1 AND r.idRide=?2", Rating.class);
+		query.setParameter(1, rating.getEmail());
+		query.setParameter(2,rating.getIdRide());
+		List<Rating> lista = query.getResultList();
+		if (lista.isEmpty()) {
 		db.persist(rating);
 		System.out.println("COCALAAAAU");
 		añadido=true;
@@ -469,6 +472,28 @@ public void open(){
 			existe = false; 
 		}
 		return existe;
+	}
+	
+	//Encontrar las opiniones sobre el conductor
+	public List<Rating> findRating(String email){
+		TypedQuery<Rating> query = db.createQuery("SELECT r FROM Rating r WHERE r.emailConductor=?1", Rating.class);
+		query.setParameter(1, email);
+		List<Rating> lista = query.getResultList();
+		return lista;
+	}
+	
+	public void responseRating(String email, int idRide, String emailConductor, String mensaje) {
+		db.getTransaction().begin();
+		TypedQuery<Rating> query = db.createQuery("SELECT r FROM Rating r WHERE r.email=?1 AND r.idRide=?2 AND r.emailConductor=?3", Rating.class);
+		query.setParameter(1, email);
+		query.setParameter(2, idRide);
+		query.setParameter(3, emailConductor);
+		Rating rating = query.getSingleResult();
+		rating.setRespuesta(mensaje);
+		db.getTransaction().commit();
+		
+		
+		
 	}
 	
 }

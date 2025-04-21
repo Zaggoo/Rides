@@ -102,4 +102,6 @@ public interface BLFacade  {
 	 public boolean addRating(Rating rating);
 	 public Ride findRide(int numero);
 	 public boolean existsReservation(Reservation res);
+	 public List<Rating> findRating(String email);
+	 public void responseRating(String email, int idRide, String emailConductor, String mensaje);
 }
