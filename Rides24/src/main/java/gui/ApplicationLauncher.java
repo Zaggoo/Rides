@@ -1,6 +1,7 @@
 package gui;
 
 import java.awt.Color;
+import java.io.File;
 import java.net.URL;
 import java.util.Locale;
 
@@ -33,7 +34,20 @@ public class ApplicationLauncher {
 		
 		MainGUI a=new MainGUI(driver);
 		a.setVisible(true);
-
+		if(c.isDatabaseInitialized()) {
+			 File carpeta = new File("imagenes");
+			 //Eliminamos las imagenes de la base de datos antigua
+		        if (carpeta.exists() && carpeta.isDirectory()) {
+		            File[] archivos = carpeta.listFiles();
+		            if (archivos != null) {
+		                for (File archivo : archivos) {
+		                    archivo.delete();
+		                }
+		            }
+		            // Eliminar la carpeta después de vaciarla
+		            carpeta.delete();
+		        }
+		}
 
 		try {
 			
@@ -44,9 +58,9 @@ public class ApplicationLauncher {
 			
 				DataAccess da= new DataAccess();
 				appFacadeInterface=new BLFacadeImplementation(da);
-
-				
-			}
+			
+			}	
+			
 			
 			else { //If remote
 				
