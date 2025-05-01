@@ -18,6 +18,7 @@ import javax.persistence.TypedQuery;
 
 import configuration.ConfigXML;
 import configuration.UtilDate;
+import domain.Car;
 import domain.Driver;
 import domain.Passenger;
 import domain.Rating;
@@ -493,7 +494,27 @@ public void open(){
 		db.getTransaction().commit();
 		
 		
-		
+	}
+	
+	public boolean storeCar(Car coche) {
+		boolean añadido=false;
+		db.getTransaction().begin();
+		TypedQuery<Car> query =db.createQuery("SELECT c FROM Car c WHERE c.emailConductor=?1", Car.class);
+		query.setParameter(1, coche.getEmailConductor());
+		List<Car> existe = query.getResultList();
+		if (existe.isEmpty()) {
+		db.persist(coche);
+		añadido=true;
+		}
+		db.getTransaction().commit();
+		return añadido;
+	}
+	
+	public Car findCar(String email) {
+		TypedQuery<Car> query =db.createQuery("SELECT c FROM Car c WHERE c.emailConductor=?1", Car.class);
+		query.setParameter(1, email);
+		Car coche = query.getSingleResult();
+		return coche;
 	}
 	
 }

@@ -9,6 +9,7 @@ import javax.jws.WebService;
 import configuration.ConfigXML;
 import dataAccess.DataAccess;
 import domain.Ride;
+import domain.Car;
 import domain.Driver;
 import domain.Passenger;
 import domain.Rating;
@@ -255,6 +256,19 @@ public class BLFacadeImplementation  implements BLFacade {
     	dbManager.open();
     	dbManager.responseRating(email, idRide, emailConductor, mensaje);
     	dbManager.close();
+    }
+    
+    public boolean storeCar(Car coche) {
+    	dbManager.open();
+    	boolean añadido= dbManager.storeCar(coche);
+    	dbManager.close();
+    	return añadido;
+    }
+    public Car findCar(String email) {
+    	dbManager.open();
+    	Car coche = dbManager.findCar(email);
+    	dbManager.close();
+    	return coche;
     }
 }
 

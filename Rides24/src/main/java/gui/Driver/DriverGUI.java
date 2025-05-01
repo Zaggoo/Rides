@@ -53,13 +53,17 @@ public class DriverGUI extends JFrame {
 		btnViewReservations.setBounds(218, 133, 185, 75);
 		contentPane.add(btnViewReservations);
 		
-		JButton btnHistorial = new JButton(ResourceBundle.getBundle("Etiquetas").getString("DriverGUI.Historial")); //$NON-NLS-1$ //$NON-NLS-2$
+		JButton btnHistorial = new JButton(ResourceBundle.getBundle("Etiquetas").getString("DriverGUI.Historial")); 
 		btnHistorial.setBounds(23, 133, 185, 75);
 		contentPane.add(btnHistorial);
 		
-		JButton btnOpinions = new JButton(ResourceBundle.getBundle("Etiquetas").getString("DriverGUI.Opiniones")); //$NON-NLS-1$ //$NON-NLS-2$
-		btnOpinions.setBounds(141, 218, 149, 35);
+		JButton btnOpinions = new JButton(ResourceBundle.getBundle("Etiquetas").getString("DriverGUI.Opiniones")); 
+		btnOpinions.setBounds(23, 218, 185, 35);
 		contentPane.add(btnOpinions);
+		
+		JButton btnCoche = new JButton(ResourceBundle.getBundle("Etiquetas").getString("DriverGUI.Coche")); 
+		btnCoche.setBounds(218, 218, 178, 35);
+		contentPane.add(btnCoche);
 		BLFacade facade = MainGUI.getBusinessLogic();
 		
 		btnCreatedRides.addActionListener(new ActionListener()
@@ -115,6 +119,18 @@ public class DriverGUI extends JFrame {
 			public void actionPerformed(ActionEvent e) {
 				
 				JFrame a = new OpinionsAboutGUI(conductor);
+				a.setVisible(true);
+				
+			}
+
+			
+		});
+		
+		btnCoche.addActionListener(new ActionListener()
+		{
+			public void actionPerformed(ActionEvent e) {
+				
+				JFrame a = new CarDriverGUI(conductor);
 				a.setVisible(true);
 				
 			}
