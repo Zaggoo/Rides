@@ -20,6 +20,7 @@ import configuration.ConfigXML;
 import configuration.UtilDate;
 import domain.Car;
 import domain.Driver;
+import domain.Mail;
 import domain.Passenger;
 import domain.Rating;
 import domain.Ride;
@@ -517,6 +518,12 @@ public void open(){
 		return coche;
 	}
 	
+	public void sendEmail(Mail mensaje) {
+		db.getTransaction().begin();
+		db.persist(mensaje);
+		System.out.println("Se ha guardado");
+		db.getTransaction().commit();
+	}
 }
 	
 

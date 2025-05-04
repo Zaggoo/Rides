@@ -16,6 +16,7 @@ import javax.swing.table.DefaultTableModel;
 
 import businessLogic.BLFacade;
 import domain.Driver;
+import domain.Mail;
 import domain.Passenger;
 import domain.Reservation;
 import domain.Ride;
@@ -109,6 +110,11 @@ public class MyRidesPassengerGUI extends JFrame {
 					if(rideDate.after(currentCalendar)) {
 						facade.eraseReservation(pasajero.getEmail(),aux);
 						actualizarLista(viajes,rides,pasajero, facade, model);
+						String asunto = ResourceBundle.getBundle("Etiquetas").getString("MyRidesPassengerGUI.Asunto");
+						String mensaje1 = ResourceBundle.getBundle("Etiquetas").getString("MyRidesPassengerGUI.Mensaje1");
+						String mensaje2 = ResourceBundle.getBundle("Etiquetas").getString("MyRidesPassengerGUI.Mensaje2");
+						Mail mensaje = new Mail(aux.getDriver().getEmail(), pasajero.getEmail(), asunto, mensaje1 +" "+aux.getRideNumber()+" "+mensaje2+" "+ pasajero.getEmail());
+						facade.sendEmail(mensaje);
 					}else {
 						JOptionPane.showMessageDialog(null, ResourceBundle.getBundle("Etiquetas").getString("MyRidesPassengerGUI.Near"));
 					}

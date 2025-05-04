@@ -11,6 +11,7 @@ import dataAccess.DataAccess;
 import domain.Ride;
 import domain.Car;
 import domain.Driver;
+import domain.Mail;
 import domain.Passenger;
 import domain.Rating;
 import domain.Reservation;
@@ -269,6 +270,12 @@ public class BLFacadeImplementation  implements BLFacade {
     	Car coche = dbManager.findCar(email);
     	dbManager.close();
     	return coche;
+    }
+    
+    public void sendEmail(Mail mensaje) {
+    	dbManager.open();
+    	dbManager.sendEmail(mensaje);
+    	dbManager.close();
     }
 }
 

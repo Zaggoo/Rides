@@ -7,6 +7,7 @@ import java.util.List;
 import domain.Ride;
 import domain.Car;
 import domain.Driver;
+import domain.Mail;
 import domain.Passenger;
 import domain.Rating;
 import domain.Reservation;
@@ -107,4 +108,5 @@ public interface BLFacade  {
 	 public void responseRating(String email, int idRide, String emailConductor, String mensaje);
 	 public boolean storeCar(Car coche);
 	 public Car findCar(String email);
+	 public void sendEmail(Mail mensaje);
 }
