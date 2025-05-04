@@ -277,5 +277,24 @@ public class BLFacadeImplementation  implements BLFacade {
     	dbManager.sendEmail(mensaje);
     	dbManager.close();
     }
+    
+    public boolean tieneCorreos(String emailConductor) {
+    	dbManager.open();
+    	boolean tiene = dbManager.tieneCorreos(emailConductor);
+    	dbManager.close();
+    	return tiene;
+    }
+    
+    public List<Mail> mirarCorreos(String emailConductor){
+    	dbManager.open();
+    	List<Mail> correos = dbManager.mirarCorreos(emailConductor);
+    	dbManager.close();
+    	return correos;
+    }
+    public void leeCorreo(Mail correo) {
+    	dbManager.open();
+    	dbManager.leeCorreo(correo);
+    	dbManager.close();
+    }
 }
 

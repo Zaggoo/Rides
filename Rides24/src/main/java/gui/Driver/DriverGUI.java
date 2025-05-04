@@ -15,7 +15,9 @@ import domain.Passenger;
 import gui.MainGUI;
 
 import javax.swing.JLabel;
+import javax.swing.JOptionPane;
 import javax.swing.JButton;
+import java.awt.Button;
 
 public class DriverGUI extends JFrame {
 
@@ -64,7 +66,15 @@ public class DriverGUI extends JFrame {
 		JButton btnCoche = new JButton(ResourceBundle.getBundle("Etiquetas").getString("DriverGUI.Coche")); 
 		btnCoche.setBounds(218, 218, 178, 35);
 		contentPane.add(btnCoche);
+		
+		JButton btnNoti = new JButton(ResourceBundle.getBundle("Etiquetas").getString("DriverGUI.Correo")); 
+		btnNoti.setBounds(38, 12, 150, 21);
+		contentPane.add(btnNoti);
 		BLFacade facade = MainGUI.getBusinessLogic();
+		
+		if(facade.tieneCorreos(conductor.getEmail())) {
+			JOptionPane.showMessageDialog(null, ResourceBundle.getBundle("Etiquetas").getString("DriverGUI.Noti"));
+		}
 		
 		btnCreatedRides.addActionListener(new ActionListener()
 		{
@@ -131,6 +141,18 @@ public class DriverGUI extends JFrame {
 			public void actionPerformed(ActionEvent e) {
 				
 				JFrame a = new CarDriverGUI(conductor);
+				a.setVisible(true);
+				
+			}
+
+			
+		});
+		
+		btnNoti.addActionListener(new ActionListener()
+		{
+			public void actionPerformed(ActionEvent e) {
+				
+				JFrame a = new MailGUI(conductor);
 				a.setVisible(true);
 				
 			}

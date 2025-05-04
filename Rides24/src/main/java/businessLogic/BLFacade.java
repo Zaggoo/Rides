@@ -109,4 +109,7 @@ public interface BLFacade  {
 	 public boolean storeCar(Car coche);
 	 public Car findCar(String email);
 	 public void sendEmail(Mail mensaje);
+	 public boolean tieneCorreos(String emailConductor);
+	 public List<Mail> mirarCorreos(String emailConductor);
+	 public void leeCorreo(Mail correo);
 }

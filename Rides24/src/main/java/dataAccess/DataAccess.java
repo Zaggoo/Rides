@@ -326,7 +326,7 @@ public void open(){
 	
 	public boolean makeReservation(Reservation res) {
 		db.getTransaction().begin();
-		boolean añadido = false;
+		boolean añadido = false;		
 		Reservation existe = db.find(Reservation.class, res.getIdRes());
 		if (existe == null) {
 		db.persist(res);
@@ -522,6 +522,34 @@ public void open(){
 		db.getTransaction().begin();
 		db.persist(mensaje);
 		System.out.println("Se ha guardado");
+		db.getTransaction().commit();
+	}
+	
+	public boolean tieneCorreos(String emailConductor) {
+		boolean tiene = true;
+		TypedQuery<Mail> query =db.createQuery("SELECT m FROM Mail m WHERE m.destinatario=?1 AND m.leido=?2", Mail.class);
+		query.setParameter(1, emailConductor);
+		query.setParameter(2, false);
+		List<Mail> existe = query.getResultList();
+		if(existe.isEmpty()) {
+			tiene = false;
+		}
+		return tiene;
+		
+		
+	}
+	
+	public List<Mail> mirarCorreos(String emailConductor){
+		TypedQuery<Mail> query =db.createQuery("SELECT m FROM Mail m WHERE m.destinatario=?1", Mail.class);
+		query.setParameter(1, emailConductor);
+		List<Mail> correos = query.getResultList();
+		return correos;
+	}
+	
+	public void leeCorreo(Mail correo) {
+		db.getTransaction().begin();
+		Mail mezua = db.find(Mail.class, correo.getIdMail());
+		mezua.setLeido(true);
 		db.getTransaction().commit();
 	}
 }

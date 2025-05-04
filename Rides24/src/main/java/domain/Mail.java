@@ -14,6 +14,7 @@ public class Mail {
 	private String remitente;
 	private String asunto;
 	private String mensaje;
+	private boolean leido;
 	
 	private Date fechaEnvio;
 
@@ -24,6 +25,7 @@ public class Mail {
 		this.destinatario = destinatario;
 		this.remitente = remitente;
 		this.asunto = asunto;
+		leido = false;
 		this.mensaje = mensaje;
 		this.fechaEnvio = new Date();
 	}
@@ -75,6 +77,15 @@ public class Mail {
 	public void setFechaEnvio(Date fechaEnvio) {
 		this.fechaEnvio = fechaEnvio;
 	}
+
+	public boolean isLeido() {
+		return leido;
+	}
+
+	public void setLeido(boolean leido) {
+		this.leido = leido;
+	}
+	
 	
 	
 	
