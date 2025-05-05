@@ -45,6 +45,8 @@ public class CarDriverGUI extends JFrame {
 
 		setContentPane(contentPane);
 		contentPane.setLayout(null);
+		setLocationRelativeTo(null);
+
 		
 		textMarca = new JTextField();
 		textMarca.setBounds(196, 37, 191, 21);

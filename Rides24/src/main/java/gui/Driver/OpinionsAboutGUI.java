@@ -63,6 +63,7 @@ public class OpinionsAboutGUI extends JFrame {
 		tabla.getColumnModel().getColumn(3).setPreferredWidth(250);
 		scrollPane.setVerticalScrollBarPolicy(JScrollPane.VERTICAL_SCROLLBAR_ALWAYS);
 		
+		setLocationRelativeTo(null);
 
 		scrollPane.setViewportView(tabla);
 		

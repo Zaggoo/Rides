@@ -35,6 +35,8 @@ public class DriversCarGUI extends JFrame {
 
 		setContentPane(contentPane);
 		contentPane.setLayout(null);
+		setLocationRelativeTo(null);
+
 		
 		JLabel lblMatricula = new JLabel(ResourceBundle.getBundle("Etiquetas").getString("CarDriverGUI.Matricula")+ " :"+ coche.getMatricula());
 		lblMatricula.setBounds(32, 22, 205, 27);

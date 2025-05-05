@@ -33,6 +33,8 @@ public class OpinionsDriverGUI extends JFrame {
 		contentPane = new JPanel();
 		contentPane.setBorder(new EmptyBorder(5, 5, 5, 5));
 		BLFacade facade = MainGUI.getBusinessLogic(); 
+		setLocationRelativeTo(null);
+
 
 		setContentPane(contentPane);
 		contentPane.setLayout(null);
@@ -60,7 +62,7 @@ public class OpinionsDriverGUI extends JFrame {
 		List<Rating> opiniones = facade.findRating(email);
 		
 		for (Rating aux : opiniones) {
-			Object[] row = {aux.getEmail(), aux.getIdRide(), aux.getIdRating(), aux.getMensaje()};
+			Object[] row = {aux.getEmail(), aux.getIdRating(), aux.getMensaje(), aux.getRespuesta()};
 			model.addRow(row);
 		}
 		

@@ -50,7 +50,8 @@ public class MailGUI extends JFrame {
 		
 		BLFacade facade = MainGUI.getBusinessLogic();
 
-		
+		setLocationRelativeTo(null);
+
 		
 		JButton btnRead = new JButton(ResourceBundle.getBundle("Etiquetas").getString("MailGUI.Leer"));
 		btnRead.setBounds(224, 198, 154, 38);
