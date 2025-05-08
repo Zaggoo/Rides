@@ -28,14 +28,18 @@ public class Driver implements Serializable {
 	@XmlIDREF
 	@OneToMany(fetch=FetchType.EAGER, cascade=CascadeType.PERSIST)
 	private List<Ride> rides=new Vector<Ride>();
+	@OneToOne(fetch = FetchType.EAGER, cascade = CascadeType.PERSIST)
+	private Monedero wallet;
 
 	public Driver() {
 		super();
+		wallet = new Monedero();
 	}
 
 	public Driver(String email, String name) {
 		this.email = email;
 		this.name = name;
+		wallet = new Monedero();
 	}
 	
 	
@@ -61,6 +65,10 @@ public class Driver implements Serializable {
 
 	public void setName(String name) {
 		this.name = name;
+	}
+	
+	public Monedero getWallet() {
+		return wallet;
 	}
 	
 	public List<Ride> getRides(){

@@ -296,5 +296,28 @@ public class BLFacadeImplementation  implements BLFacade {
     	dbManager.leeCorreo(correo);
     	dbManager.close();
     }
+    
+    public void añadirDinero(Passenger pasajero, float dineros) {
+    	dbManager.open();
+    	dbManager.añadirDinero(pasajero, dineros);
+    	dbManager.close();
+    }
+    
+    public void añadirDinero(Driver conductor, float dineros) {
+    	dbManager.open();
+    	dbManager.añadirDinero(conductor, dineros);
+    	dbManager.close();
+    }
+    
+    public void withdraw(Driver conductor, float dineros){
+    	dbManager.open();
+    	dbManager.withdraw(conductor, dineros);
+    	dbManager.close();
+    }
+    public void pay(Passenger pasajero, float dineros) {
+    	dbManager.open();
+    	dbManager.pay(pasajero, dineros);
+    	dbManager.close();
+    }
 }
 
