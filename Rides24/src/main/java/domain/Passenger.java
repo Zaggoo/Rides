@@ -22,17 +22,21 @@ public class Passenger implements Serializable {
 	private String contraseña;
 	@OneToMany(fetch=FetchType.EAGER, cascade=CascadeType.PERSIST)
 	private List<Ride> rides=new Vector<Ride>();
-	
+	@OneToOne(fetch = FetchType.EAGER, cascade = CascadeType.PERSIST)
+	private Monedero wallet;
 	
 	
 	public Passenger() {
 		super();
+		wallet = new Monedero();
 	}
 	
 	public Passenger(String email,  String contraseña) {
 		super();
 		this.email = email;
 		this.contraseña = contraseña;
+		wallet = new Monedero();
+
 	}
 	public String getEmail() {
 		return email;
@@ -53,7 +57,9 @@ public class Passenger implements Serializable {
 		this.contraseña = contraseña;
 	}
 	
-	
+	public Monedero getWallet() {
+		return wallet;
+	}
 	
 	
 	public List<Ride> getRides() {
@@ -106,6 +112,8 @@ public class Passenger implements Serializable {
 	public void setRides(List<Ride> rides) {
 		this.rides = rides;
 	}
+	
+	
 	
 	
 	

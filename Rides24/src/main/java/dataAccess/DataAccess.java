@@ -552,6 +552,34 @@ public void open(){
 		mezua.setLeido(true);
 		db.getTransaction().commit();
 	}
+	
+	public void añadirDinero(Passenger pasajero, float dineros) {
+		db.getTransaction().begin();
+		Passenger intxaurra = db.find(Passenger.class, pasajero.getEmail());
+		intxaurra.getWallet().addCash(dineros);
+		db.getTransaction().commit();
+	}
+	
+	public void añadirDinero(Driver conductor, float dineros) {
+		db.getTransaction().begin();
+		Driver hurra = db.find(Driver.class, conductor.getEmail());
+		hurra.getWallet().addCash(dineros);
+		db.getTransaction().commit();
+	}
+	
+	public void withdraw(Driver conductor, float dineros) {
+		db.getTransaction().begin();
+		Driver hurra = db.find(Driver.class, conductor.getEmail());
+		hurra.getWallet().withdraw(dineros);
+		db.getTransaction().commit();
+	}
+	
+	public void pay(Passenger pasajero, float dineros) {
+		db.getTransaction().begin();
+		Passenger hurra = db.find(Passenger.class, pasajero.getEmail());
+		hurra.getWallet().withdraw(dineros);
+		db.getTransaction().commit();
+	}
 }
 	
 

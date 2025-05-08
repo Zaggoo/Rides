@@ -112,4 +112,8 @@ public interface BLFacade  {
 	 public boolean tieneCorreos(String emailConductor);
 	 public List<Mail> mirarCorreos(String emailConductor);
 	 public void leeCorreo(Mail correo);
+	 public void añadirDinero(Passenger pasajero, float dineros);
+	 public void añadirDinero(Driver conductor, float dineros);
+	 public void withdraw(Driver conductor, float dineros);
+	 public void pay(Passenger pasajero, float dineros);
 }
