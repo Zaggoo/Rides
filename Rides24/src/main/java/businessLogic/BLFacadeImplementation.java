@@ -9,7 +9,9 @@ import javax.jws.WebService;
 import configuration.ConfigXML;
 import dataAccess.DataAccess;
 import domain.Ride;
+import domain.Car;
 import domain.Driver;
+import domain.Mail;
 import domain.Passenger;
 import domain.Rating;
 import domain.Reservation;
@@ -233,5 +235,66 @@ public class BLFacadeImplementation  implements BLFacade {
     	return morsilla;
     }
     
+    public Ride findRide(int numero) {
+    	dbManager.open();
+    	Ride ride = dbManager.findRide(numero);
+    	dbManager.open();
+    	return ride;
+    }
+    public boolean existsReservation(Reservation res) {
+    	dbManager.open();
+    	boolean esta = dbManager.existsReservation(res);
+    	dbManager.close();
+    	return esta;
+    }
+    public List<Rating> findRating(String email){
+    	dbManager.open();
+    	List<Rating> lista = dbManager.findRating(email);
+    	dbManager.close();
+    	return lista;
+    }
+    public void responseRating(String email, int idRide, String emailConductor, String mensaje) {
+    	dbManager.open();
+    	dbManager.responseRating(email, idRide, emailConductor, mensaje);
+    	dbManager.close();
+    }
+    
+    public boolean storeCar(Car coche) {
+    	dbManager.open();
+    	boolean añadido= dbManager.storeCar(coche);
+    	dbManager.close();
+    	return añadido;
+    }
+    public Car findCar(String email) {
+    	dbManager.open();
+    	Car coche = dbManager.findCar(email);
+    	dbManager.close();
+    	return coche;
+    }
+    
+    public void sendEmail(Mail mensaje) {
+    	dbManager.open();
+    	dbManager.sendEmail(mensaje);
+    	dbManager.close();
+    }
+    
+    public boolean tieneCorreos(String emailConductor) {
+    	dbManager.open();
+    	boolean tiene = dbManager.tieneCorreos(emailConductor);
+    	dbManager.close();
+    	return tiene;
+    }
+    
+    public List<Mail> mirarCorreos(String emailConductor){
+    	dbManager.open();
+    	List<Mail> correos = dbManager.mirarCorreos(emailConductor);
+    	dbManager.close();
+    	return correos;
+    }
+    public void leeCorreo(Mail correo) {
+    	dbManager.open();
+    	dbManager.leeCorreo(correo);
+    	dbManager.close();
+    }
 }
 

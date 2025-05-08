@@ -58,6 +58,8 @@ public class SearchForRidesGUI extends JFrame {
 			ResourceBundle.getBundle("Etiquetas").getString("FindRidesGUI.NPlaces"), 
 			ResourceBundle.getBundle("Etiquetas").getString("FindRidesGUI.Price")
 	};
+	private final JButton btnOpiniones = new JButton(ResourceBundle.getBundle("Etiquetas").getString("SearchForRidesGUI.Opiniones")); 
+	private final JButton btnCoche = new JButton(ResourceBundle.getBundle("Etiquetas").getString("SearchForRidesGUI.Coche")); 
 
 
 	public SearchForRidesGUI(Passenger pasajero)
@@ -118,6 +120,8 @@ public class SearchForRidesGUI extends JFrame {
 				
 			}
 		});
+		
+		
 
 
 		jComboBoxDestination.setModel(destinationCities);
@@ -238,6 +242,45 @@ public class SearchForRidesGUI extends JFrame {
 		JButton btnReservar = new JButton(ResourceBundle.getBundle("Etiquetas").getString("FindRidesGUI.Reservation")); 
 		btnReservar.setBounds(25, 274, 109, 104);
 		getContentPane().add(btnReservar);
+		btnOpiniones.setBounds(32, 138, 191, 25);
+		
+		getContentPane().add(btnOpiniones);
+		btnCoche.setBounds(25, 173, 191, 25);
+		
+		getContentPane().add(btnCoche);
+		
+		btnOpiniones.addActionListener(new ActionListener()
+		{
+			public void actionPerformed(ActionEvent e) {
+				int selectedRow = tableRides.getSelectedRow();
+				if (selectedRow ==-1) {
+					JOptionPane.showMessageDialog(null, ResourceBundle.getBundle("Etiquetas").getString("FindRidesGUI.SelectErrorDriver"));
+					return;
+				}else {
+					OpinionsDriverGUI a = new OpinionsDriverGUI((String) tableRides.getValueAt(selectedRow, 0));
+					a.setVisible(true);
+				
+				}
+				
+			}
+		});
+		
+		btnCoche.addActionListener(new ActionListener()
+		{
+			public void actionPerformed(ActionEvent e) {
+				int selectedRow = tableRides.getSelectedRow();
+				if (selectedRow ==-1) {
+					JOptionPane.showMessageDialog(null, ResourceBundle.getBundle("Etiquetas").getString("FindRidesGUI.SelectErrorDriver"));
+					return;
+				}else {
+					DriversCarGUI a = new DriversCarGUI((String) tableRides.getValueAt(selectedRow, 0));
+					a.setVisible(true);
+				
+				}
+				
+			}
+		});
+		
 		
 		btnReservar.addActionListener(new ActionListener()
 		{
@@ -245,15 +288,18 @@ public class SearchForRidesGUI extends JFrame {
 				
 				int selectedRow = tableRides.getSelectedRow();
 				if (selectedRow ==-1) {
-					JOptionPane.showMessageDialog(null, "Por favor selecciona un ride para reservar");
+					JOptionPane.showMessageDialog(null, ResourceBundle.getBundle("Etiquetas").getString("FindRidesGUI.SelectError"));
 					return;
 				}else {
 				
 					Ride selectedRide = (Ride) tableModelRides.getValueAt(selectedRow, 3);
-					int rideid =selectedRide.getRideNumber()
-;					Reservation res = new Reservation(rideid ,pasajero.getEmail());
-				
-					facade.makeReservation(res);
+					int rideid =selectedRide.getRideNumber();					
+					Reservation res = new Reservation(rideid ,pasajero.getEmail());
+					if(!facade.existsReservation(res)) {
+						facade.makeReservation(res);
+					}else {
+						JOptionPane.showMessageDialog(null,  ResourceBundle.getBundle("Etiquetas").getString("FindRidesGUI.ResYes"));
+					}
 				
 				}
 			}

@@ -115,15 +115,22 @@ public class MyRatingGUI extends JFrame {
 			public void actionPerformed(ActionEvent e) {
 				if(list.getSelectedValue()!=null && spinner.getValue()!=null) {
 					Ride r = (Ride) list.getSelectedValue();
+					boolean existe;
 					if(textField.getText().equals("") || textField.getText()==null) {
-						facade.addRating(new Rating(pasajero.getEmail(), r.getRideNumber(),(int)spinner.getValue()));
+						existe = facade.addRating(new Rating(pasajero.getEmail(), r.getRideNumber(),(int)spinner.getValue(), r.getDriver().getEmail()));
 						System.out.println("Sin texto YUPIIII");
+						if(!existe) {
+							JOptionPane.showMessageDialog(null, ResourceBundle.getBundle("Etiquetas").getString("MyRatingGUI.RatingDone"));
+						}
 					}else { 
-						facade.addRating(new Rating(pasajero.getEmail(), r.getRideNumber(),(int)spinner.getValue(), textField.getText()));
+						existe = facade.addRating(new Rating(pasajero.getEmail(), r.getRideNumber(),(int)spinner.getValue(), textField.getText(), r.getDriver().getEmail()));
 						System.out.println("Con Texto JOOOOOO");
+						if(!existe) {
+							JOptionPane.showMessageDialog(null, ResourceBundle.getBundle("Etiquetas").getString("MyRatingGUI.RatingDone"));
+						}
 					}
 				}else {
-					JOptionPane.showMessageDialog(null, "Por favor, selecciona un viaje");
+					JOptionPane.showMessageDialog(null, ResourceBundle.getBundle("Etiquetas").getString("MyRatingGUI.Select"));
 				}
 			}
 		});

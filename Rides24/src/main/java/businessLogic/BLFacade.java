@@ -5,7 +5,9 @@ import java.util.List;
 
 //import domain.Booking;
 import domain.Ride;
+import domain.Car;
 import domain.Driver;
+import domain.Mail;
 import domain.Passenger;
 import domain.Rating;
 import domain.Reservation;
@@ -100,4 +102,14 @@ public interface BLFacade  {
 	 public List<Ride> rejectedReservation(String email);
 	 public boolean eraseReservation(String email, Ride ride);
 	 public boolean addRating(Rating rating);
+	 public Ride findRide(int numero);
+	 public boolean existsReservation(Reservation res);
+	 public List<Rating> findRating(String email);
+	 public void responseRating(String email, int idRide, String emailConductor, String mensaje);
+	 public boolean storeCar(Car coche);
+	 public Car findCar(String email);
+	 public void sendEmail(Mail mensaje);
+	 public boolean tieneCorreos(String emailConductor);
+	 public List<Mail> mirarCorreos(String emailConductor);
+	 public void leeCorreo(Mail correo);
 }

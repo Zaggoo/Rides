@@ -106,7 +106,7 @@ public class RegisterGUI extends JFrame {
 				String contraseña = passwordField.getText().trim();
 
 				if (email.isEmpty() || nombre.isEmpty() || contraseña.isEmpty()) {
-				    JOptionPane.showMessageDialog(null, "Por favor, completa todos los campos.");
+				    JOptionPane.showMessageDialog(null, ResourceBundle.getBundle("Etiquetas").getString("SignInGUI.NotComplete"));
 				    return;
 				}
 				boolean añadido;

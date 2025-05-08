@@ -15,7 +15,9 @@ import domain.Passenger;
 import gui.MainGUI;
 
 import javax.swing.JLabel;
+import javax.swing.JOptionPane;
 import javax.swing.JButton;
+import java.awt.Button;
 
 public class DriverGUI extends JFrame {
 
@@ -53,10 +55,26 @@ public class DriverGUI extends JFrame {
 		btnViewReservations.setBounds(218, 133, 185, 75);
 		contentPane.add(btnViewReservations);
 		
-		JButton btnHistorial = new JButton(ResourceBundle.getBundle("Etiquetas").getString("DriverGUI.Historial")); //$NON-NLS-1$ //$NON-NLS-2$
+		JButton btnHistorial = new JButton(ResourceBundle.getBundle("Etiquetas").getString("DriverGUI.Historial")); 
 		btnHistorial.setBounds(23, 133, 185, 75);
 		contentPane.add(btnHistorial);
+		
+		JButton btnOpinions = new JButton(ResourceBundle.getBundle("Etiquetas").getString("DriverGUI.Opiniones")); 
+		btnOpinions.setBounds(23, 218, 185, 35);
+		contentPane.add(btnOpinions);
+		
+		JButton btnCoche = new JButton(ResourceBundle.getBundle("Etiquetas").getString("DriverGUI.Coche")); 
+		btnCoche.setBounds(218, 218, 178, 35);
+		contentPane.add(btnCoche);
+		
+		JButton btnNoti = new JButton(ResourceBundle.getBundle("Etiquetas").getString("DriverGUI.Correo")); 
+		btnNoti.setBounds(38, 12, 150, 21);
+		contentPane.add(btnNoti);
 		BLFacade facade = MainGUI.getBusinessLogic();
+		
+		if(facade.tieneCorreos(conductor.getEmail())) {
+			JOptionPane.showMessageDialog(null, ResourceBundle.getBundle("Etiquetas").getString("DriverGUI.Noti"));
+		}
 		
 		btnCreatedRides.addActionListener(new ActionListener()
 		{
@@ -106,5 +124,40 @@ public class DriverGUI extends JFrame {
 			
 		});
 		
+		btnOpinions.addActionListener(new ActionListener()
+		{
+			public void actionPerformed(ActionEvent e) {
+				
+				JFrame a = new OpinionsAboutGUI(conductor);
+				a.setVisible(true);
+				
+			}
+
+			
+		});
+		
+		btnCoche.addActionListener(new ActionListener()
+		{
+			public void actionPerformed(ActionEvent e) {
+				
+				JFrame a = new CarDriverGUI(conductor);
+				a.setVisible(true);
+				
+			}
+
+			
+		});
+		
+		btnNoti.addActionListener(new ActionListener()
+		{
+			public void actionPerformed(ActionEvent e) {
+				
+				JFrame a = new MailGUI(conductor);
+				a.setVisible(true);
+				
+			}
+
+			
+		});
 	}
 }

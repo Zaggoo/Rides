@@ -18,7 +18,9 @@ import javax.persistence.TypedQuery;
 
 import configuration.ConfigXML;
 import configuration.UtilDate;
+import domain.Car;
 import domain.Driver;
+import domain.Mail;
 import domain.Passenger;
 import domain.Rating;
 import domain.Ride;
@@ -324,7 +326,7 @@ public void open(){
 	
 	public boolean makeReservation(Reservation res) {
 		db.getTransaction().begin();
-		boolean añadido = false;
+		boolean añadido = false;		
 		Reservation existe = db.find(Reservation.class, res.getIdRes());
 		if (existe == null) {
 		db.persist(res);
@@ -426,7 +428,7 @@ public void open(){
 	public boolean eraseReservation(String email, Ride ride) {
 		boolean res=false;
 		db.getTransaction().begin();
-		TypedQuery<Reservation> query = db.createQuery("SELECT r FROM Reservation r WHERE r.pasEmail=?1 AND r.idRide=?2",Reservation.class);   
+		TypedQuery<Reservation> query = db.createQuery("SELECT r FROM Reservation r WHERE r.pasEmail=?1 AND r.idRide=?2 ",Reservation.class);   
 		query.setParameter(1, email);
 		query.setParameter(2, ride.getRideNumber());
 		Reservation auxiliar = query.getSingleResult();
@@ -445,8 +447,11 @@ public void open(){
 	public boolean addRating(Rating rating) {
 		db.getTransaction().begin();
 		boolean añadido = false;
-		Rating existe = db.find(Rating.class, rating.getIdRating());
-		if (existe == null) {
+		TypedQuery<Rating> query = db.createQuery("SELECT r FROM Rating r WHERE r.email=?1 AND r.idRide=?2", Rating.class);
+		query.setParameter(1, rating.getEmail());
+		query.setParameter(2,rating.getIdRide());
+		List<Rating> lista = query.getResultList();
+		if (lista.isEmpty()) {
 		db.persist(rating);
 		System.out.println("COCALAAAAU");
 		añadido=true;
@@ -454,7 +459,99 @@ public void open(){
 		db.getTransaction().commit();
 		return añadido;
 	}
+	public Ride findRide(int numero) {
+		return db.find(Ride.class, numero);
+		
+	}
 	
+	public boolean existsReservation(Reservation res) {
+		boolean existe = true;
+		TypedQuery<Reservation> query = db.createQuery("SELECT r FROM Reservation r WHERE r.pasEmail=?1 AND r.idRide=?2",Reservation.class);   
+		query.setParameter(1, res.getPasEmail());
+		query.setParameter(2, res.getIdRide());
+		List<Reservation> lista = query.getResultList();
+		if(lista.isEmpty()) {
+			existe = false; 
+		}
+		return existe;
+	}
+	
+	//Encontrar las opiniones sobre el conductor
+	public List<Rating> findRating(String email){
+		TypedQuery<Rating> query = db.createQuery("SELECT r FROM Rating r WHERE r.emailConductor=?1", Rating.class);
+		query.setParameter(1, email);
+		List<Rating> lista = query.getResultList();
+		return lista;
+	}
+	
+	public void responseRating(String email, int idRide, String emailConductor, String mensaje) {
+		db.getTransaction().begin();
+		TypedQuery<Rating> query = db.createQuery("SELECT r FROM Rating r WHERE r.email=?1 AND r.idRide=?2 AND r.emailConductor=?3", Rating.class);
+		query.setParameter(1, email);
+		query.setParameter(2, idRide);
+		query.setParameter(3, emailConductor);
+		Rating rating = query.getSingleResult();
+		rating.setRespuesta(mensaje);
+		db.getTransaction().commit();
+		
+		
+	}
+	
+	public boolean storeCar(Car coche) {
+		boolean añadido=false;
+		db.getTransaction().begin();
+		TypedQuery<Car> query =db.createQuery("SELECT c FROM Car c WHERE c.emailConductor=?1", Car.class);
+		query.setParameter(1, coche.getEmailConductor());
+		List<Car> existe = query.getResultList();
+		if (existe.isEmpty()) {
+		db.persist(coche);
+		añadido=true;
+		}
+		db.getTransaction().commit();
+		return añadido;
+	}
+	
+	public Car findCar(String email) {
+		TypedQuery<Car> query =db.createQuery("SELECT c FROM Car c WHERE c.emailConductor=?1", Car.class);
+		query.setParameter(1, email);
+		Car coche = query.getSingleResult();
+		return coche;
+	}
+	
+	public void sendEmail(Mail mensaje) {
+		db.getTransaction().begin();
+		db.persist(mensaje);
+		System.out.println("Se ha guardado");
+		db.getTransaction().commit();
+	}
+	
+	public boolean tieneCorreos(String emailConductor) {
+		boolean tiene = true;
+		TypedQuery<Mail> query =db.createQuery("SELECT m FROM Mail m WHERE m.destinatario=?1 AND m.leido=?2", Mail.class);
+		query.setParameter(1, emailConductor);
+		query.setParameter(2, false);
+		List<Mail> existe = query.getResultList();
+		if(existe.isEmpty()) {
+			tiene = false;
+		}
+		return tiene;
+		
+		
+	}
+	
+	public List<Mail> mirarCorreos(String emailConductor){
+		TypedQuery<Mail> query =db.createQuery("SELECT m FROM Mail m WHERE m.destinatario=?1", Mail.class);
+		query.setParameter(1, emailConductor);
+		List<Mail> correos = query.getResultList();
+		return correos;
+	}
+	
+	public void leeCorreo(Mail correo) {
+		db.getTransaction().begin();
+		Mail mezua = db.find(Mail.class, correo.getIdMail());
+		mezua.setLeido(true);
+		db.getTransaction().commit();
+	}
 }
 	
 
